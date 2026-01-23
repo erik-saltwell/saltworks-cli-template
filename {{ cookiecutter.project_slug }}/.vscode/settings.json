@@ -52,7 +52,7 @@
   "python.analysis.typeCheckingMode": "basic",
   "mypy.runUsingActiveInterpreter": true,
   "mypy.dmypyExecutable": "${workspaceFolder}/.venv/bin/dmypy",
-  "mypy.configFile": "${workspaceFolder}/pyproject.toml",
+  "mypy.configFile": "pyproject.toml",
   "mypy.targets": [
     "src",
     "tests"
