@@ -49,5 +49,7 @@
     "**/.ruff_cache": true
   },
   // Pylance type checking (mypy is authoritative; keep editor helpful but not noisy)
-  "python.analysis.typeCheckingMode": "basic"
+  "python.analysis.typeCheckingMode": "basic",
+  "mypy.runUsingActiveInterpreter": true,
+  "mypy.dmypyExecutable": "${workspaceFolder}/.venv/bin/dmypy"
 }
