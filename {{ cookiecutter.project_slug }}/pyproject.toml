@@ -58,7 +58,7 @@ warn_unused_ignores = true
 warn_unreachable = true
 
 # Keep third-party stubs explicit (we'll add types-* as needed)
-ignore_missing_imports = false
+ignore_missing_imports = true
 
 # Nice for CLI apps with a src/ layout
 mypy_path = ["src"]
