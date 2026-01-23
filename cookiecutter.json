@@ -1,0 +1,9 @@
+{
+  "project_name": "My Tool",
+  "project_slug": "{{ cookiecutter.project_name | lower | replace(' ', '-') }}",
+  "package_name": "{{ cookiecutter.project_slug | replace('-', '_') }}",
+  "author_name": "Erik Saltwell",
+  "author_email": "erik.saltwell@gmail.com",
+  "python_version": "3.11",
+  "project_description": "An app"
+}
