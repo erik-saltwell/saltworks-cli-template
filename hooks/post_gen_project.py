@@ -13,6 +13,11 @@ def run(cmd: list[str], *, check: bool = True) -> subprocess.CompletedProcess[st
 def run_capture(cmd: list[str], *, check: bool = False) -> subprocess.CompletedProcess[str]:
     return subprocess.run(cmd, check=check, text=True, capture_output=True)
 
+def has_git_repo_in_ancestors(start: Path) -> bool:
+    for p in (start, *start.parents):
+        if (p / ".git").exists():
+            return True
+    return False
 
 def should_init_local_git_repo() -> bool:
     """
@@ -22,7 +27,7 @@ def should_init_local_git_repo() -> bool:
     """
     if Path(".git").exists():
         return False
-    if (Path.cwd().parent / ".git").exists():
+    if has_git_repo_in_ancestors(Path.cwd()):
         return False
     return True
 
