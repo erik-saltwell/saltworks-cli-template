@@ -9,8 +9,8 @@ import typer
 from dotenv import load_dotenv
 from rich.console import Console
 
-from ..utils.logging_config import configure_logging, CompositeLogger
-from ..protocols import LoggingProtocol
+from ..utils.logging_config import configure_logging
+from ..protocols import LoggingProtocol, CompositeLogger
 from .file_logging_protocol import FileLogger
 from .rich_logging_protocol import RichConsoleLogger
 from datetime import datetime
