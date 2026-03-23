@@ -9,16 +9,35 @@ import typer
 from dotenv import load_dotenv
 from rich.console import Console
 
-from {{ cookiecutter.package_name }}.utils.logging_config import configure_logging
+from ..utils.logging_config import configure_logging, CompositeLogger
+from ..protocols import LoggingProtocol
+from .file_logging_protocol import FileLogger
+from .rich_logging_protocol import RichConsoleLogger
+from datetime import datetime
 
 load_dotenv()
 configure_logging()
+
 
 app = typer.Typer(
     name="{{ cookiecutter.project_slug }}",
     add_completion=True,
     help="CLI for {{ cookiecutter.project_slug }}",
 )
+
+LOG_FILENAME: str = "{{ cookiecutter.package_name }}.log"
+
+
+def create_logger() -> LoggingProtocol:
+    console = Console()
+    console_logger: RichConsoleLogger = RichConsoleLogger(console)
+    file_logger: FileLogger = FileLogger(LOG_FILENAME, verbose_training=True)
+    return CompositeLogger([console_logger, file_logger])
+
+
+def seconds_since(start: datetime) -> float:
+    return (datetime.now() - start).total_seconds()
+
 
 
 @app.command("test")
