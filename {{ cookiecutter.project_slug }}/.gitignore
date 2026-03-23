@@ -226,3 +226,7 @@ __marimo__/
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# Keep data directory scaffolding, ignore generated data files
+/data/
+!/data/.gitkeep
