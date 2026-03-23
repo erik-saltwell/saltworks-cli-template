@@ -1,7 +1,6 @@
-# src/reddit_rpg_miner/cli/main.py
-
 from __future__ import annotations
 
+from datetime import datetime
 from importlib.metadata import PackageNotFoundError, metadata
 from importlib.metadata import version as dist_version
 
@@ -9,11 +8,10 @@ import typer
 from dotenv import load_dotenv
 from rich.console import Console
 
+from ..protocols import CompositeLogger, LoggingProtocol
 from ..utils.logging_config import configure_logging
-from ..protocols import LoggingProtocol, CompositeLogger
 from .file_logging_protocol import FileLogger
 from .rich_logging_protocol import RichConsoleLogger
-from datetime import datetime
 
 load_dotenv()
 configure_logging()
