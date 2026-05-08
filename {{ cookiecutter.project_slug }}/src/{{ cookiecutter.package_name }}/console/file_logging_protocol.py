@@ -25,21 +25,16 @@ class FileLogger(LoggingProtocol):
     and markup stripping as the console logger, minus colors and interactive elements.
     """
 
-    def __init__(self, filename: str | Path, verbose_training: bool = False) -> None:
+    def __init__(self, filename: str | Path) -> None:
         path = Path(filename)
         path.parent.mkdir(parents=True, exist_ok=True)
-        self._file = path.open("w")
+        self._file = path.open("a")
         self._console = Console(
             file=self._file,
             no_color=True,
             force_terminal=False,
             width=120,
         )
-        self._verbose_training = verbose_training
-
-    @property
-    def verbose_training(self) -> bool:
-        return self._verbose_training
 
     def _flush(self) -> None:
         self._file.flush()
@@ -77,7 +72,9 @@ class FileLogger(LoggingProtocol):
         self._console.print(table)
         self._flush()
 
-    def report_multicolumn_table(self, headers: list[str], rows: list[list[str]]) -> None:
+    def report_multicolumn_table(
+        self, headers: list[str], rows: list[list[str]]
+    ) -> None:
         table = Table(
             show_header=True,
             show_lines=True,
@@ -102,5 +99,7 @@ class FileLogger(LoggingProtocol):
         yield _NullStatus()
 
     @contextmanager
-    def progress(self, description: str, total: int | None = None) -> Iterator[ProgressTask]:
+    def progress(
+        self, description: str, total: int | None = None
+    ) -> Iterator[ProgressTask]:
         yield _NullProgress()

@@ -5,7 +5,13 @@ from contextlib import contextmanager
 from typing import Any
 
 from rich.console import Console
-from rich.progress import BarColumn, Progress, TaskProgressColumn, TextColumn, TimeElapsedColumn
+from rich.progress import (
+    BarColumn,
+    Progress,
+    TaskProgressColumn,
+    TextColumn,
+    TimeElapsedColumn,
+)
 from rich.status import Status
 from rich.table import Table, box
 from rich.traceback import Traceback
@@ -47,7 +53,9 @@ class RichConsoleLogger(LoggingProtocol):
             table.add_row(str(key), str(value))
         self._console.print(table)
 
-    def report_multicolumn_table(self, headers: list[str], rows: list[list[str]]) -> None:
+    def report_multicolumn_table(
+        self, headers: list[str], rows: list[list[str]]
+    ) -> None:
         table = Table(
             show_header=True,
             show_lines=True,
@@ -88,7 +96,9 @@ class RichConsoleLogger(LoggingProtocol):
             handle.close()
 
     @contextmanager
-    def progress(self, description: str, total: int | None = None) -> Iterator[ProgressTask]:
+    def progress(
+        self, description: str, total: int | None = None
+    ) -> Iterator[ProgressTask]:
         prog = Progress(
             TextColumn("[progress.description]{task.description}"),
             BarColumn(),
