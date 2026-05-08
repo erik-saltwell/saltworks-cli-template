@@ -25,3 +25,7 @@ def logs_dir() -> Path:
 
 def tracefile_path() -> Path:
     return logs_dir() / KnownPathnames.TRACE_FILE
+
+
+def logfile_path() -> Path:
+    return logs_dir() / KnownPathnames.LOG_FILE
