@@ -52,7 +52,7 @@ indent-style = "space"
 
 [tool.ty.environment]
 # src/ layout — tell ty where first-party code lives
-root = "src"
+root = ["src"]
 python-version = "{{ cookiecutter.python_version }}"
 
 [tool.ty.rules]
