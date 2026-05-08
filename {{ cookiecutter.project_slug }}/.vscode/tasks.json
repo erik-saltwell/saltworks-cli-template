@@ -20,9 +20,9 @@
       "problemMatcher": []
     },
     {
-      "label": "typecheck: mypy",
+      "label": "typecheck: ty",
       "type": "shell",
-      "command": "uv run mypy",
+      "command": "uv run ty check",
       "problemMatcher": []
     },
     {
@@ -55,7 +55,7 @@
       "dependsOn": [
         "lint: ruff check",
         "format: ruff format",
-        "typecheck: mypy",
+        "typecheck: ty",
         "test: unit"
       ],
       "problemMatcher": []
