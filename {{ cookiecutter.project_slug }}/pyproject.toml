@@ -18,12 +18,12 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
-    "mypy>=1.19.1",
     "pre-commit>=4.5.1",
     "pyright>=1.1.0",
     "pytest>=9.0.2",
     "ruff>=0.14.13",
     "ssort>=0.16.0",
+    "ty>=0.0.1a5",
 ]
 
 
@@ -43,24 +43,16 @@ ignore = []
 quote-style = "double"
 indent-style = "space"
 
-[tool.mypy]
-python_version = "{{ cookiecutter.python_version }}"
-warn_unused_configs = true
+[tool.ty]
+# src/ layout — tell ty where first-party code lives
+src.root = "src"
 
+[tool.ty.environment]
+python-version = "{{ cookiecutter.python_version }}"
+
+[tool.ty.rules]
 # Reasonable signal without going full-strict
-check_untyped_defs = true
-disallow_incomplete_defs = true
-disallow_untyped_defs = false
-
-no_implicit_optional = true
-warn_return_any = true
-warn_redundant_casts = true
-warn_unused_ignores = true
-warn_unreachable = true
-
-# Keep third-party stubs explicit (we'll add types-* as needed)
-ignore_missing_imports = true
-
-# Nice for CLI apps with a src/ layout
-mypy_path = ["src"]
-packages = ["{{ cookiecutter.package_name }}"]
+possibly-unresolved-reference = "warn"
+unresolved-attribute = "warn"
+unused-ignore-comment = "warn"
+redundant-cast = "warn"
