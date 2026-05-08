@@ -1,20 +1,18 @@
 from __future__ import annotations
 
-from datetime import datetime
 from importlib.metadata import PackageNotFoundError, metadata
 from importlib.metadata import version as dist_version
+from pathlib import Path
+from typing import Annotated
 
 import typer
 from dotenv import load_dotenv
 from rich.console import Console
 
 from ..protocols import CompositeLogger, LoggingProtocol
-from ..utils.logging_config import configure_logging
+from ..utils import Tracer, common_paths, initialize_request, initialize_tracing
 from .file_logging_protocol import FileLogger
 from .rich_logging_protocol import RichConsoleLogger
-
-load_dotenv()
-configure_logging()
 
 
 app = typer.Typer(
@@ -23,19 +21,18 @@ app = typer.Typer(
     help="CLI for {{ cookiecutter.project_slug }}",
 )
 
-LOG_FILENAME: str = "{{ cookiecutter.package_name }}.log"
 
-
-def create_logger() -> LoggingProtocol:
+def create_logger() -> tuple[LoggingProtocol, Tracer]:
     console = Console()
     console_logger: RichConsoleLogger = RichConsoleLogger(console)
-    file_logger: FileLogger = FileLogger(LOG_FILENAME, verbose_training=True)
-    return CompositeLogger([console_logger, file_logger])
+    file_logger: FileLogger = FileLogger(common_paths.logfile_path())
 
+    initialize_tracing(common_paths.tracefile_path())
+    request_id: str = initialize_request()
 
-def seconds_since(start: datetime) -> float:
-    return (datetime.now() - start).total_seconds()
-
+    logger = CompositeLogger([console_logger, file_logger])
+    logger.report_message(f"[blue]Session id: {request_id}[/blue]")
+    return logger, Tracer()
 
 
 @app.command("test")
@@ -85,7 +82,7 @@ def _callback(
 ) -> None:
     """Root command group for reddit_rpg_miner."""
     # Intentionally empty: this forces Typer to keep subcommands like `test`.
-    pass
+    load_dotenv()
 
 
 if __name__ == "__main__":
